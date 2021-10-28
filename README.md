@@ -1,5 +1,7 @@
 ## Github App Token Gen Utility
 
+[![CircleCI](https://circleci.com/gh/stephenh1991/gha-token-generator/tree/main.svg?style=svg)](https://circleci.com/gh/stephenh1991/gha-token-generator/tree/main)
+
 This app is a small binary which simplifies usage of Github App authentication (see this link for more info: [link](https://docs.github.com/en/developers/apps/building-github-apps/authenticating-with-github-apps#authenticating-as-a-github-app))
 
 ### Installation
