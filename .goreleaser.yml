@@ -1,0 +1,106 @@
+project_name: gha-token-generator
+release:
+  github:
+    owner: stephenh1991
+    name: gha-token-generator
+  name_template: '{{.Tag}}'
+milestones:
+- repo:
+    owner: stephenh1991
+    name: gha-token-generator
+  name_template: '{{ .Tag }}'
+scoop:
+  name: gha-token-generator
+  commit_author:
+    name: goreleaserbot
+    email: goreleaser@carlosbecker.com
+  commit_msg_template: Scoop update for {{ .ProjectName }} version {{ .Tag }}
+builds:
+- id: token-generator
+  goos:
+  - linux
+  - windows
+  - darwin
+  goarch:
+  - amd64
+  goarm:
+  - "6"
+  gomips:
+  - hardfloat
+  targets:
+  - linux_amd64
+  - windows_amd64
+  - darwin_amd64
+  dir: .
+  main: ./cmd/token-generator/main.go
+  ldflags:
+  - -s -w
+  - -X main.version={{.Version}}
+  binary: gha-token-generator
+  env:
+  - CGO_ENABLED=0
+  lang: go
+  gobinary: go
+archives:
+- id: default
+  builds:
+  - token-generator
+  name_template: '{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}{{ if .Arm
+    }}v{{ .Arm }}{{ end }}{{ if .Mips }}_{{ .Mips }}{{ end }}'
+  replacements:
+    amd64: x86_64
+    darwin: Darwin
+    linux: Linux
+    windows: Windows
+  format: tar.gz
+  files:
+  - licence*
+  - LICENCE*
+  - license*
+  - LICENSE*
+  - readme*
+  - README*
+  - changelog*
+  - CHANGELOG*
+  allow_different_binary_count: false
+snapshot:
+  name_template: '{{ .Tag }}-next'
+checksum:
+  name_template: checksums.txt
+  algorithm: sha256
+dockers:
+- goos: linux
+  goarch: amd64
+  dockerfile: Dockerfile.goreleaser
+  image_templates:
+  - steveh1991/gha-token-generator:latest
+  - steveh1991/gha-token-generator:{{ .Tag }}
+  use: buildx
+changelog:
+  filters:
+    exclude:
+    - '^docs:'
+    - '^test:'
+    - '^fixup:'
+  sort: asc
+dist: dist
+env_files:
+  github_token: ~/.config/goreleaser/github_token
+  gitlab_token: ~/.config/goreleaser/gitlab_token
+  gitea_token: ~/.config/goreleaser/gitea_token
+before:
+  hooks:
+  - go mod tidy
+source:
+  name_template: '{{ .ProjectName }}-{{ .Version }}'
+  format: tar.gz
+gomod:
+  gobinary: go
+announce:
+  twitter:
+    message_template: '{{ .ProjectName }} {{ .Tag }} is out! Check it out at {{ .GitURL
+      }}/releases/tag/{{ .Tag }}'
+github_urls:
+  download: https://github.com
+gitlab_urls:
+  download: https://gitlab.com

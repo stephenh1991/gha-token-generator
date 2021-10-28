@@ -1,0 +1,78 @@
+version: 2.1
+
+executors:
+  go_executor:
+    docker:
+      - image: cimg/go:1.17
+
+commands:
+  release:
+    description: "run go releaser"
+    parameters:
+      dry-run:
+        type: boolean
+        default: true
+    steps:
+      - run: make install-goreleaser
+      - when:
+          condition: <<parameters.dry-run>>
+          steps:
+            - run: make release-dryrun
+      - unless:
+          condition: <<parameters.dry-run>>
+          steps:
+            - run: |
+                export GITHUB_TOKEN=$(./bin/token-generator -pem-key=${GITHUB_APP_KEY} -org-name=stephenh1991 -app-id=146339)
+                make release
+
+jobs:
+  test:
+    executor: go_executor
+    steps:
+      - checkout
+      - run: make test
+  release:
+    executor: go_executor
+    parameters:
+      dry-run:
+        type: boolean
+        default: true
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 20.10.2
+      - run: make build
+      - run: echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USER} --password-stdin
+      - release:
+          dry-run: <<parameters.dry-run>>
+
+workflows:
+  test:
+    jobs:
+      - test:
+          name: test-dry-run
+      - release:
+          name: release-dry-run
+          dry-run: true
+          requires:
+            - test-dry-run
+  release:
+    jobs:
+      - test:
+          name: test
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v\d+\.\d+\.\d+$/
+      - release:
+          name: release
+          dry-run: false
+          requires:
+            - test
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v\d+\.\d+\.\d+$/
+

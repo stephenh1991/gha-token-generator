@@ -1,0 +1,9 @@
+# syntax=docker/dockerfile:1.2
+
+FROM gcr.io/distroless/static:nonroot
+
+COPY gha-token-generator /usr/local/bin/token-generator
+
+USER 65532:65532
+
+ENTRYPOINT ["/usr/local/bin/token-generator"]
