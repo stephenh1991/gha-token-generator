@@ -30,7 +30,9 @@ jobs:
     executor: go_executor
     steps:
       - checkout
-      - run: make test
+      - run: |
+          make generate-test-data
+          make test
   release:
     executor: go_executor
     parameters:
