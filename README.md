@@ -20,7 +20,17 @@ pre-built docker image: https://hub.docker.com/r/steveh1991/gha-token-generator
 
 ### Quickstart
 
-To run the tests locally run: `make test`
+To run the tests locally run: 
+```shell 
+make generate-test-data
+
+make test
+```
+
+To build locally, binaries are output in `bin/`:
+```
+make build
+```
 
 ### How it works
 
