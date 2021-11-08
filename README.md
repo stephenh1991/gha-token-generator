@@ -6,14 +6,18 @@ This app is a small binary which simplifies usage of Github App authentication (
 
 ### Installation
 
-Download pre-compiled binaries:
+Download pre-compiled binaries (MacOS):
 ```shell
-curl -o gha-token-generator_1.0.0_Darwin_x86_64.tar.gz https://github.com/stephenh1991/gha-token-generator/releases/download/v1.0.0/gha-token-generator_1.0.0_Darwin_x86_64.tar.gz
+curl -L https://github.com/stephenh1991/gha-token-generator/releases/download/v1.0.1/gha-token-generator_1.0.1_Darwin_x86_64.tar.gz | tar xz
 
-tar -vxf gha-token-generator_1.0.0_Darwin_x86_64.tar.gz
+mv gha-token-generator /usr/local/bin/gha-token-generator
+```
 
-mv token-generator_darwin_amd64/gha-token-generator /usr/local/bin/gha-token-generator
+Download pre-compiled binaries (Linux):
+```shell
+curl -L https://github.com/stephenh1991/gha-token-generator/releases/download/v1.0.1/gha-token-generator_1.0.1_Linux_x86_64.tar.gz | tar xz
 
+mv gha-token-generator /usr/local/bin/gha-token-generator
 ```
 
 pre-built docker image: https://hub.docker.com/r/steveh1991/gha-token-generator
