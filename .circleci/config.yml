@@ -22,7 +22,7 @@ commands:
           condition: <<parameters.dry-run>>
           steps:
             - run: |
-                export GITHUB_TOKEN=$(./bin/token-generator -pem-key=${GITHUB_APP_KEY} -org-name=stephenh1991 -app-id=146339)
+                export GITHUB_TOKEN=$(./bin/token-generator -pem-key=${SA_RELEASE_BOT_GITHUB_PEM} -org-name=SuperAwesomeLTD -app-id=${SA_RELEASE_BOT_APP_ID})
                 make release
 
 jobs:
@@ -69,6 +69,7 @@ workflows:
               only: /^v\d+\.\d+\.\d+$/
       - release:
           name: release
+          context: Build
           dry-run: false
           requires:
             - test
