@@ -1,4 +1,4 @@
-module github.com/steveh1991/gha-token-generator
+module github.com/SuperAwesomeLTD/gha-token-generator
 
 go 1.17
 

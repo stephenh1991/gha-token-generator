@@ -44,7 +44,7 @@ jobs:
       - setup_remote_docker:
           version: 20.10.2
       - run: make build
-      - run: echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USER} --password-stdin
+      # - run: echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USER} --password-stdin
       - release:
           dry-run: <<parameters.dry-run>>
 
