@@ -23,14 +23,17 @@ builds:
   - darwin
   goarch:
   - amd64
+  - arm64
   goarm:
   - "6"
   gomips:
   - hardfloat
   targets:
   - linux_amd64
+  - linux_arm64
   - windows_amd64
   - darwin_amd64
+  - darwin_arm64
   dir: .
   main: ./cmd/token-generator/main.go
   ldflags:
@@ -49,6 +52,7 @@ archives:
     }}v{{ .Arm }}{{ end }}{{ if .Mips }}_{{ .Mips }}{{ end }}'
   replacements:
     amd64: x86_64
+    arm64: AArch64
     darwin: Darwin
     linux: Linux
     windows: Windows
